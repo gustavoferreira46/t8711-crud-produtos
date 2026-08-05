@@ -9,7 +9,7 @@ from app.controllers.produto_controller import Produto_Controller
 
 # Componentes de Estados
 from app.dao.estado_dao import Estado_DAO
-from app.views.estado_view import Estado_Terminal_View
+from app.views.estado_view import Estado_view
 from app.controllers.estado_controller import Estado_Controller
 
 # Componentes de Cidades
@@ -37,7 +37,7 @@ class ErpApplication:
 
     def __init__(self):
 
-        init(autoreset=True)
+        # init(autoreset=True)
 
         self._database = Database()
 
@@ -51,7 +51,7 @@ class ErpApplication:
 
         self._ctrl_estados = Estado_Controller(
             dao=self._dao_estados,
-            view=Estado_Terminal_View()
+            view=None
         )
 
         # ===========================
@@ -184,8 +184,13 @@ class ErpApplication:
                 self._ctrl_clientes.inicializar_sistema()
 
             elif opcao == 5:
-
-                self._ctrl_estados.inicializar_sistema()
+                janela_estados = tk.Tk()
+                self._ctrl_estados.view = Estado_view(
+                    janela_estados,
+                    self._ctrl_estados
+                )
+                self._ctrl_estados.get_all()
+                self._ctrl_estados.view.iniciar()
 
             elif opcao == 6:
 

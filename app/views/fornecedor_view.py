@@ -396,5 +396,8 @@ class Fornecedor_View:
     def iniciar(self):
         self.root.mainloop()
 
-f = Fornecedor_View(tk.Tk())
-f.iniciar()
+if __name__ == "__main__":
+    root = tk.Tk()
+    controller = None
+    f = Fornecedor_View(root, controller)
+    f.iniciar()
