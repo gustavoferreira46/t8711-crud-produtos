@@ -313,7 +313,7 @@ class Estado_view:
         else:
             messagebox.showerror(
                 "Mini ERP",
-                mensagem
+                False
             )
 
     def exibir_estados(self, estados):

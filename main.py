@@ -4,7 +4,7 @@ from app.core.database import Database
 
 # Componentes de Produtos
 from app.dao.produto_dao import Produto_DAO
-from app.views.produto_view import Produto_Terminal_View
+from app.views.produto_view import Produto_View
 from app.controllers.produto_controller import Produto_Controller
 
 # Componentes de Estados
@@ -14,7 +14,7 @@ from app.controllers.estado_controller import Estado_Controller
 
 # Componentes de Cidades
 from app.dao.cidade_dao import Cidade_DAO
-from app.views.cidade_view import Cidade_Terminal_View
+from app.views.cidade_view import Cidade_View
 from app.controllers.cidade_controller import Cidade_Controller
 
 # Componentes de Fornecedores
@@ -37,7 +37,7 @@ class ErpApplication:
 
     def __init__(self):
 
-        # init(autoreset=True)
+        init(autoreset=True)
 
         self._database = Database()
 
@@ -48,7 +48,6 @@ class ErpApplication:
         self._dao_estados = Estado_DAO(
             self._database
         )
-
         self._ctrl_estados = Estado_Controller(
             dao=self._dao_estados,
             view=None
@@ -66,7 +65,7 @@ class ErpApplication:
         self._ctrl_cidades = Cidade_Controller(
             dao=self._dao_cidades,
             estado_dao=self._dao_estados,
-            view=Cidade_Terminal_View()
+            view=None
         )
 
         # ===========================
@@ -96,7 +95,7 @@ class ErpApplication:
         self._ctrl_produtos = Produto_Controller(
             dao=self._dao_produtos,
             fornecedor_dao=self._dao_fornecedores,
-            view=Produto_Terminal_View()
+            view=None
         )
 
         # ===========================
@@ -163,8 +162,12 @@ class ErpApplication:
                 break
 
             elif opcao == 1:
-
-                self._ctrl_produtos.inicializar_sistema()
+                janela_produtos = tk.Tk()
+                self._ctrl_produtos.view = Produto_View(
+                    janela_produtos,
+                    self._ctrl_produtos
+                )
+                self._ctrl_produtos.view.iniciar()
 
             elif opcao == 2:
                 janela_fornecedores = tk.Tk()
@@ -189,21 +192,15 @@ class ErpApplication:
                     janela_estados,
                     self._ctrl_estados
                 )
-                self._ctrl_estados.get_all()
                 self._ctrl_estados.view.iniciar()
 
             elif opcao == 6:
-
-                self._ctrl_cidades.inicializar_sistema()
-
-            else:
-
-                print(Fore.RED + "\nOpção inválida!")
-
-                input(
-                    Fore.WHITE +
-                    "Pressione Enter para continuar..."
-                )
+                    janela_cidades = tk.Tk()
+                    self._ctrl_cidades.view = Cidade_View(
+                        janela_cidades,
+                        self._ctrl_cidades
+                    )
+                    self._ctrl_cidades.view.iniciar()
     
 
 if __name__ == "__main__":
