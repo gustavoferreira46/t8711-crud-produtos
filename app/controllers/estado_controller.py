@@ -1,5 +1,5 @@
-import os
 from app.models.estado import Estado
+
 
 class Estado_Controller:
     def __init__(self, dao, view):
@@ -17,18 +17,17 @@ class Estado_Controller:
                 None,
                 nome,
                 sigla
-                )
-            
+            )
             self.dao.save(estado)
             self.get_all()
             self.view.exibir_mensagem("Estado cadastrado com sucesso!")
-        except ValueError:
-            self.view.exibir_mensagem("Erro: Entrada inválida. Tente novamente.", False)
-        
+        except ValueError as e:
+            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+
     def get_all(self):
         estados = self.dao.get_all()
         self.view.exibir_estados(estados)
-        
+
     def selecionar_estado(self, event):
         try:
             id_estado = self.view.get_id_selecionado()
@@ -38,18 +37,19 @@ class Estado_Controller:
             self.view.preencher_campos(
                 self.estado_selecionado
             )
+
         except IndexError:
             pass
 
     def update(self):
         try:
             if self.estado_selecionado is None:
-                self.view.exibir_mensagem("Selecione um estado na lista", False)
+                self.view.exibir_mensagem("Selecione um estado na lista.", False)
                 return
-
-            nome, sigla = self.view.ler_dados_estado(self.estado_selecionado)
+            nome, sigla = self.view.ler_dados_estado()
             self.estado_selecionado.atualizar_dados(nome, sigla)
             self.dao.update(self.estado_selecionado)
+            self.get_all()
             self.view.exibir_mensagem("Estado atualizado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
@@ -71,25 +71,3 @@ class Estado_Controller:
                 self.view.exibir_mensagem("Estado não encontrado.", False)
         except Exception as e:
             self.view.exibir_mensagem("Problemas ao excluir estado", False)
-
-
-    def inicializar_sistema(self):
-        while True:
-            os.system('cls' if os.name == 'nt' else 'clear')
-            opcao = self.view.renderizar_menu()
-            if opcao == 0:
-                break
-            elif opcao == 1:
-                self.save()
-            
-            elif opcao == 2:
-                self.get_all()
-            
-            elif opcao == 3:
-                self.update()
-                
-            elif opcao == 4:
-                self.delete()
-                
-            else:
-                self.view.exibir_mensagem("Opção inválida. Tente novamente.", False)
