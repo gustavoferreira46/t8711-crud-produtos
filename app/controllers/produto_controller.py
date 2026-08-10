@@ -23,6 +23,8 @@ class Produto_Controller:
             self.view.exibir_mensagem("Produto cadastrado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def get_all(self):
         produtos = self.dao.get_all()
@@ -53,6 +55,8 @@ class Produto_Controller:
             self.view.exibir_mensagem("Produto atualizado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def delete(self):
         if self.produto_selecionado is None:

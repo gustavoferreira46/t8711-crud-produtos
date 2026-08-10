@@ -23,6 +23,8 @@ class Estado_Controller:
             self.view.exibir_mensagem("Estado cadastrado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def get_all(self):
         estados = self.dao.get_all()
@@ -53,6 +55,8 @@ class Estado_Controller:
             self.view.exibir_mensagem("Estado atualizado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def delete(self):
         if self.estado_selecionado is None:

@@ -22,6 +22,8 @@ class Categoria_Controller:
             self.view.exibir_mensagem("Categoria cadastrada com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def get_all(self):
         categorias = self.dao.get_all()
@@ -52,6 +54,8 @@ class Categoria_Controller:
             self.view.exibir_mensagem("Categoria atualizada com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def delete(self):
         if self.categoria_selecionada is None:

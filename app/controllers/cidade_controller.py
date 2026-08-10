@@ -29,6 +29,8 @@ class Cidade_Controller:
             self.view.exibir_mensagem("Cidade cadastrada com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def get_all(self):
         cidades = self.dao.get_all()
@@ -59,6 +61,8 @@ class Cidade_Controller:
             self.view.exibir_mensagem("Cidade atualizada com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def delete(self):
         if self.cidade_selecionada is None:

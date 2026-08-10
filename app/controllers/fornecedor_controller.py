@@ -27,7 +27,10 @@ class Fornecedor_Controller:
             self.view.exibir_mensagem("Fornecedor cadastrado com sucesso!")
         except ValueError:
             self.view.exibir_mensagem("Erro: Entrada inválida. Tente novamente.", False)
-        
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
+
+
     def get_all(self):
         fornecedores = self.dao.get_all()
         self.view.exibir_fornecedores(fornecedores)
@@ -56,6 +59,8 @@ class Fornecedor_Controller:
             self.view.exibir_mensagem("Fornecedor atualizado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def delete(self):
         if self.fornecedor_selecionado is None:

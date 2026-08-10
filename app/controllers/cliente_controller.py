@@ -46,6 +46,8 @@ class Cliente_Controller:
             self.view.exibir_mensagem("Cliente cadastrado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def get_all(self):
         clientes = self.dao.get_all()
@@ -85,6 +87,8 @@ class Cliente_Controller:
             self.view.exibir_mensagem("Cliente atualizado com sucesso!")
         except ValueError as e:
             self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+        except Exception as e:
+            self.view.exibir_mensagem(f"Erro ao salvar os dados: {str(e)}", False)
 
     def delete(self):
         if self.cliente_selecionado is None:

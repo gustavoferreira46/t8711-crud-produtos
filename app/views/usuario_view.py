@@ -1,5 +1,3 @@
-
-
 from app.models.usuario import Usuario
 from app.core.data_utils import Data_Utils
 
@@ -15,6 +13,7 @@ class Usuario_View:
         self.controller = controller
         self._estados = []
         self._cidades = []
+        self._perfis = []
         self.configurar_janela()
         self.criar_componentes()
         self.configurar_treeview()
@@ -22,7 +21,7 @@ class Usuario_View:
 
     def configurar_janela(self):
         self.root.title("CRUD de Usuários")
-        self.root.geometry("900x600")
+        self.root.geometry("900x650")
         self.root.resizable(False, False)
 
 
@@ -190,6 +189,29 @@ class Usuario_View:
             pady = 5,
             sticky = "w"
         )
+        self.lbl_perfis = tk.Label(
+            self.frm_dados,
+            text = "Perfil:"
+        )
+        self.lbl_perfis.grid(
+            row = 3,
+            column = 2,
+            padx = 5,
+            pady = 5,
+            sticky = "w"
+        )
+        self.cmb_perfis = ttk.Combobox(
+            self.frm_dados,
+            width = 37,
+            state = "readonly"
+        )
+        self.cmb_perfis.grid(
+            row = 3,
+            column = 3,
+            padx = 5,
+            pady = 5,
+            sticky = "w"
+        )
         self.frm_botoes = tk.Frame(
             self.frm_dados,
             border = 2,
@@ -278,7 +300,8 @@ class Usuario_View:
             "nascimento",
             "idade",
             "cidade",
-            "estado"
+            "estado",
+            "perfil"
         )
         self.tbl_usuarios.column(
             "#0",
@@ -317,6 +340,10 @@ class Usuario_View:
             width = 15,
             anchor = "center"
         )
+        self.tbl_usuarios.column(
+            "perfil",
+            width = 25
+        )
         self.tbl_usuarios.heading(
             "id",
             text = "ID"
@@ -344,6 +371,10 @@ class Usuario_View:
         self.tbl_usuarios.heading(
             "estado",
             text = "UF"
+        )
+        self.tbl_usuarios.heading(
+            "perfil",
+            text = "Perfil"
         )
     def configurar_eventos(self):
         self.btn_novo.config(
@@ -389,6 +420,16 @@ class Usuario_View:
         self.cmb_cidades["values"] = valores
         self.cmb_cidades.set("")
 
+    def carregar_perfis(self, perfis):
+        self._perfis = perfis
+        valores = []
+        for perfil in perfis:
+            valores.append(
+                f"{perfil.id} - {perfil.nome}"
+            )
+        self.cmb_perfis["values"] = valores
+        self.cmb_perfis.set("")
+
     def get_estado_selecionado_id(self):
         indice = self.cmb_estados.current()
         if indice < 0:
@@ -432,6 +473,11 @@ class Usuario_View:
                 self.cmb_cidades.current(indice)
                 break
 
+        for indice, perfil in enumerate(self._perfis):
+            if perfil.id == usuario.perfil.id:
+                self.cmb_perfis.current(indice)
+                break
+
     def limpar_campos(self):
         self.txt_id.config(state = "normal")
         self.txt_id.delete(0, tk.END)
@@ -443,6 +489,7 @@ class Usuario_View:
         self.cmb_cidades.set("")
         self.cmb_cidades["values"] = []
         self._cidades = []
+        self.cmb_perfis.set("")
         self.txt_nome.focus()
 
     def limpar_treeview(self):
@@ -470,11 +517,15 @@ class Usuario_View:
         data_nascimento = self.txt_data_nascimento.get()
         if not Data_Utils.validar_data(data_nascimento):
             raise ValueError("Data de nascimento inválida. Use o formato DD/MM/AAAA.")
-        indice = self.cmb_cidades.current()
-        if indice < 0:
+        indice_cidade = self.cmb_cidades.current()
+        if indice_cidade < 0:
             raise ValueError("Selecione uma cidade.")
-        cidade = self._cidades[indice]
-        return nome, email, data_nascimento, cidade
+        cidade = self._cidades[indice_cidade]
+        indice_perfil = self.cmb_perfis.current()
+        if indice_perfil < 0:
+            raise ValueError("Selecione um perfil.")
+        perfil = self._perfis[indice_perfil]
+        return nome, email, data_nascimento, cidade, perfil
 
     def exibir_mensagem(self, mensagem, sucesso=True):
         if sucesso:
@@ -505,7 +556,8 @@ class Usuario_View:
                     Data_Utils.data_para_string(usuario.data_nascimento),
                     usuario.idade,
                     usuario.cidade.nome,
-                    usuario.cidade.estado.sigla
+                    usuario.cidade.estado.sigla,
+                    usuario.perfil.nome
                 )
             )
     def fechar(self):
@@ -513,4 +565,5 @@ class Usuario_View:
 
     def iniciar(self):
         self.controller.carregar_estados()
+        self.controller.carregar_perfis()
         self.controller.get_all()

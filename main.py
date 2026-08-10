@@ -27,6 +27,11 @@ from app.dao.fornecedor_categoria_dao import Fornecedor_Categoria_DAO
 from app.views.fornecedor_view import Fornecedor_View
 from app.controllers.fornecedor_controller import Fornecedor_Controller
 
+# Componentes de Perfis
+from app.dao.perfil_dao import Perfil_DAO
+from app.views.perfil_view import Perfil_View
+from app.controllers.perfil_controller import Perfil_Controller
+
 # Componentes de Usuários
 from app.dao.usuario_dao import Usuario_DAO
 from app.views.usuario_view import Usuario_View
@@ -55,6 +60,7 @@ class ErpApplication:
         self._janela_fornecedores = None
         self._janela_produtos = None
         self._janela_categorias = None
+        self._janela_perfis = None
         self._janela_usuarios = None
         self._janela_clientes = None
 
@@ -135,18 +141,33 @@ class ErpApplication:
         )
 
         # ===========================
+        # PERFIS
+        # ===========================
+
+        self._dao_perfis = Perfil_DAO(
+            self._database
+        )
+
+        self._ctrl_perfis = Perfil_Controller(
+            dao=self._dao_perfis,
+            view=None
+        )
+
+        # ===========================
         # USUÁRIOS
         # ===========================
 
         self._dao_usuarios = Usuario_DAO(
             self._database,
-            self._dao_cidades
+            self._dao_cidades,
+            self._dao_perfis
         )
 
         self._ctrl_usuarios = Usuario_Controller(
             dao=self._dao_usuarios,
             cidade_dao=self._dao_cidades,
             estado_dao=self._dao_estados,
+            perfil_dao=self._dao_perfis,
             view=None
         )
 
@@ -191,6 +212,10 @@ class ErpApplication:
         )
 
         menu_acessos = tk.Menu(menu_principal, tearoff=0)
+        menu_acessos.add_command(
+            label="Perfis",
+            command=self._abrir_perfis
+        )
         menu_acessos.add_command(
             label="Usuários",
             command=self._abrir_usuarios
@@ -258,6 +283,9 @@ class ErpApplication:
 
     def _abrir_categorias(self):
         self._abrir_janela("_janela_categorias", Categoria_View, self._ctrl_categorias)
+
+    def _abrir_perfis(self):
+        self._abrir_janela("_janela_perfis", Perfil_View, self._ctrl_perfis)
 
     def _abrir_usuarios(self):
         self._abrir_janela("_janela_usuarios", Usuario_View, self._ctrl_usuarios)
