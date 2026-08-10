@@ -1,7 +1,6 @@
-
-
 from app.models.fornecedor import Fornecedor
 from app.views.fornecedor_categoria_view import Fornecedor_Categoria_View
+from app.views.fornecedor_perfil_view import Fornecedor_Perfil_View
 
 import tkinter as tk
 from tkinter import messagebox
@@ -231,6 +230,17 @@ class Fornecedor_View:
             padx = 5,
             pady = 5
         )
+        self.btn_perfis = tk.Button(
+            self.frm_botoes,
+            text = "Perfis",
+            width = 15
+        )
+        self.btn_perfis.grid(
+            row = 0,
+            column = 5,
+            padx = 5,
+            pady = 5
+        )
         self.btn_fechar = tk.Button(
             self.frm_botoes,
             text = "Fechar",
@@ -238,7 +248,7 @@ class Fornecedor_View:
         )
         self.btn_fechar.grid(
             row = 0,
-            column = 5,
+            column = 6,
             padx = 5,
             pady = 5
         )
@@ -306,6 +316,9 @@ class Fornecedor_View:
         )
         self.btn_categorias.config(
             command = self.controller.abrir_categorias
+        )
+        self.btn_perfis.config(
+            command = self.controller.abrir_perfis
         )
         self.btn_fechar.config(
             command = self.fechar
@@ -416,6 +429,15 @@ class Fornecedor_View:
             self.controller,
             fornecedor,
             categorias_disponiveis
+        )
+
+    def abrir_perfis(self, fornecedor, perfis_disponiveis):
+        janela_perfis = tk.Toplevel(self.root)
+        Fornecedor_Perfil_View(
+            janela_perfis,
+            self.controller,
+            fornecedor,
+            perfis_disponiveis
         )
 
     def fechar(self):

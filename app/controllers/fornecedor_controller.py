@@ -1,10 +1,12 @@
 from app.models.fornecedor import Fornecedor
 
 class Fornecedor_Controller:
-    def __init__(self, dao, categoria_dao, fornecedor_categoria_dao, view):
+    def __init__(self, dao, categoria_dao, fornecedor_categoria_dao, perfil_dao, fornecedor_perfil_dao, view):
         self.dao = dao
         self.categoria_dao = categoria_dao
         self.fornecedor_categoria_dao = fornecedor_categoria_dao
+        self.perfil_dao = perfil_dao
+        self.fornecedor_perfil_dao = fornecedor_perfil_dao
         self.view = view
         self.fornecedor_selecionado = None
 
@@ -109,3 +111,33 @@ class Fornecedor_Controller:
             view_categorias.fechar()
         except Exception as e:
             view_categorias.exibir_mensagem("Não foi possível salvar as categorias do fornecedor.", False)
+
+    def abrir_perfis(self):
+        if self.fornecedor_selecionado is None:
+            self.view.exibir_mensagem("Selecione um fornecedor na lista.", False)
+            return
+        perfis_disponiveis = self.perfil_dao.get_all()
+        if not perfis_disponiveis:
+            self.view.exibir_mensagem("Cadastre perfis antes de associá-los a um fornecedor.", False)
+            return
+        self.fornecedor_selecionado.perfis = self.fornecedor_perfil_dao.get_perfis_por_fornecedor(
+            self.fornecedor_selecionado
+        )
+        self.view.abrir_perfis(
+            self.fornecedor_selecionado,
+            perfis_disponiveis
+        )
+
+    def salvar_perfis(self, view_perfis, fornecedor, perfis_selecionados):
+        try:
+            self.fornecedor_perfil_dao.substituir_perfis_do_fornecedor(
+                fornecedor,
+                perfis_selecionados
+            )
+            fornecedor.perfis = self.fornecedor_perfil_dao.get_perfis_por_fornecedor(
+                fornecedor
+            )
+            view_perfis.exibir_mensagem("Perfis do fornecedor atualizados com sucesso!")
+            view_perfis.fechar()
+        except Exception as e:
+            view_perfis.exibir_mensagem("Não foi possível salvar os perfis do fornecedor.", False)

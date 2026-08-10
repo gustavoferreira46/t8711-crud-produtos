@@ -21,16 +21,17 @@ from app.dao.cidade_dao import Cidade_DAO
 from app.views.cidade_view import Cidade_View
 from app.controllers.cidade_controller import Cidade_Controller
 
-# Componentes de Fornecedores
-from app.dao.fornecedor_dao import Fornecedor_DAO
-from app.dao.fornecedor_categoria_dao import Fornecedor_Categoria_DAO
-from app.views.fornecedor_view import Fornecedor_View
-from app.controllers.fornecedor_controller import Fornecedor_Controller
-
 # Componentes de Perfis
 from app.dao.perfil_dao import Perfil_DAO
 from app.views.perfil_view import Perfil_View
 from app.controllers.perfil_controller import Perfil_Controller
+
+# Componentes de Fornecedores
+from app.dao.fornecedor_dao import Fornecedor_DAO
+from app.dao.fornecedor_categoria_dao import Fornecedor_Categoria_DAO
+from app.dao.fornecedor_perfil_dao import Fornecedor_Perfil_DAO
+from app.views.fornecedor_view import Fornecedor_View
+from app.controllers.fornecedor_controller import Fornecedor_Controller
 
 # Componentes de Usuários
 from app.dao.usuario_dao import Usuario_DAO
@@ -107,6 +108,21 @@ class ErpApplication:
         )
 
         # ===========================
+        # PERFIS
+        # ===========================
+        # precisa vir antes de FORNECEDORES, pois o Fornecedor_Controller
+        # depende do self._dao_perfis para a associação fornecedor x perfil
+
+        self._dao_perfis = Perfil_DAO(
+            self._database
+        )
+
+        self._ctrl_perfis = Perfil_Controller(
+            dao=self._dao_perfis,
+            view=None
+        )
+
+        # ===========================
         # FORNECEDORES
         # ===========================
 
@@ -118,10 +134,16 @@ class ErpApplication:
             self._database
         )
 
+        self._dao_fornecedor_perfis = Fornecedor_Perfil_DAO(
+            self._database
+        )
+
         self._ctrl_fornecedores = Fornecedor_Controller(
             dao=self._dao_fornecedores,
             categoria_dao=self._dao_categorias,
             fornecedor_categoria_dao=self._dao_fornecedor_categorias,
+            perfil_dao=self._dao_perfis,
+            fornecedor_perfil_dao=self._dao_fornecedor_perfis,
             view=None
         )
 
@@ -137,19 +159,6 @@ class ErpApplication:
         self._ctrl_produtos = Produto_Controller(
             dao=self._dao_produtos,
             fornecedor_dao=self._dao_fornecedores,
-            view=None
-        )
-
-        # ===========================
-        # PERFIS
-        # ===========================
-
-        self._dao_perfis = Perfil_DAO(
-            self._database
-        )
-
-        self._ctrl_perfis = Perfil_Controller(
-            dao=self._dao_perfis,
             view=None
         )
 
