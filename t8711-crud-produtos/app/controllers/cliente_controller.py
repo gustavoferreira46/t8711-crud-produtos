@@ -1,15 +1,11 @@
 from app.models.cliente import Cliente
 from app.core.data_utils import Data_Utils
+from app.core.idioma import Idioma
+
 
 class Cliente_Controller:
 
-    def __init__(
-        self,
-        dao,
-        cidade_dao,
-        estado_dao,
-        view
-    ):
+    def __init__(self, dao, cidade_dao, estado_dao, view):
         self.dao = dao
         self.cidade_dao = cidade_dao
         self.estado_dao = estado_dao
@@ -17,6 +13,7 @@ class Cliente_Controller:
         self.cliente_selecionado = None
 
     def new(self):
+        self.cliente_selecionado = None
         self.view.limpar_campos()
 
     def carregar_estados(self):
@@ -43,9 +40,12 @@ class Cliente_Controller:
             )
             self.dao.save(cliente)
             self.get_all()
-            self.view.exibir_mensagem("Cliente cadastrado com sucesso!")
+            self.view.limpar_campos()
+            self.view.exibir_mensagem(Idioma.t("cliente.cadastrado_sucesso"))
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(str(e), False)
+        except Exception as e:
+            self.view.exibir_mensagem(Idioma.t("comum.erro_prefixo") + str(e), False)
 
     def get_all(self):
         clientes = self.dao.get_all()
@@ -54,24 +54,19 @@ class Cliente_Controller:
     def selecionar_cliente(self, event):
         try:
             id_cliente = self.view.get_id_selecionado()
-            self.cliente_selecionado = self.dao.get_by_id(
-                id_cliente
-            )
-            cidades = self.cidade_dao.get_by_estado(
-                self.cliente_selecionado.cidade.estado.id
-            )
-            self.view.preencher_campos(
-                self.cliente_selecionado,
-                cidades
-            )
-
+            self.cliente_selecionado = self.dao.get_by_id(id_cliente)
+            if self.cliente_selecionado:
+                cidades = self.cidade_dao.get_by_estado(
+                    self.cliente_selecionado.cidade.estado.id
+                )
+                self.view.preencher_campos(self.cliente_selecionado, cidades)
         except IndexError:
             pass
 
     def update(self):
         try:
             if self.cliente_selecionado is None:
-                self.view.exibir_mensagem("Selecione um cliente na lista.", False)
+                self.view.exibir_mensagem(Idioma.t("cliente.selecione_da_lista"), False)
                 return
             nome, data_nascimento, limite_credito, cidade = self.view.ler_dados_cliente()
             self.cliente_selecionado.atualizar_dados(
@@ -82,13 +77,17 @@ class Cliente_Controller:
             )
             self.dao.update(self.cliente_selecionado)
             self.get_all()
-            self.view.exibir_mensagem("Cliente atualizado com sucesso!")
+            self.view.limpar_campos()
+            self.cliente_selecionado = None
+            self.view.exibir_mensagem(Idioma.t("cliente.atualizado_sucesso"))
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(str(e), False)
+        except Exception as e:
+            self.view.exibir_mensagem(Idioma.t("comum.erro_prefixo") + str(e), False)
 
     def delete(self):
         if self.cliente_selecionado is None:
-            self.view.exibir_mensagem("Selecione um cliente na lista.", False)
+            self.view.exibir_mensagem(Idioma.t("cliente.selecione_da_lista"), False)
             return
         if not self.view.confirmar_exclusao():
             return
@@ -98,8 +97,8 @@ class Cliente_Controller:
                 self.cliente_selecionado = None
                 self.view.limpar_campos()
                 self.get_all()
-                self.view.exibir_mensagem("Cliente excluído com sucesso!")
+                self.view.exibir_mensagem(Idioma.t("cliente.excluido_sucesso"))
             else:
-                self.view.exibir_mensagem("Cliente não encontrado.", False)
+                self.view.exibir_mensagem(Idioma.t("cliente.nao_encontrado"), False)
         except Exception as e:
-            self.view.exibir_mensagem("Problemas ao excluir cliente", False)
+            self.view.exibir_mensagem(Idioma.t("cliente.erro_ao_excluir"), False)
