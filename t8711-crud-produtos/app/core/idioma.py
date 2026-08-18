@@ -4,7 +4,6 @@ class Idioma:
 
     TEXTOS = {
         "pt": {
-
             # Comuns a várias telas
             "comum.id": "ID",
             "comum.nome": "Nome",
@@ -31,7 +30,6 @@ class Idioma:
             "estado.erro_ao_excluir": "Problemas ao excluir estado",
             "estado.erro_sigla_tamanho": "A sigla deve possuir exatamente 2 caracteres.",
 
-            
             # Menu principal
             "menu.cadastros_basicos": "Cadastros básicos",
             "menu.estados": "Estados",
@@ -47,7 +45,7 @@ class Idioma:
             "menu.idioma": "Idioma",
             "menu.sair": "Sair",
 
-            #Tela de Cidades
+            # Tela de Cidades
             "janela.cidade": "CRUD de cidades",
             "cadastro.cidades": "Cadastro de cidades",
             "dados.cidades": "Dados da cidade",
@@ -63,13 +61,11 @@ class Idioma:
             "cidade.nao_encotrada": "Cidade não encontrada",
             "cidade.problemas": "Problemas ao excluir cidade",
 
-            #Tela de Categorias
-            #view
+            # Tela de Categorias
             "categoria.janela": "CRUD de Categorias",
             "categoria.cadastro": "Cadastro de Categorias",
             "categoria.dados": "Dados da categoria",
             "categoria.confirmacao": "Deseja realmente excluir esta categoria?",
-            #controller
             "categoria.cadastrada_sucesso": "Categoria cadastrada com sucesso!",
             "categoria.selecionar": "Selecione uma categoria na lista",
             "categoria.atualizada_sucesso": "Categoria atualizada com sucesso!",
@@ -77,11 +73,64 @@ class Idioma:
             "categoria.nao_encontrada": "Categoria não encontrada",
             "categoria.problemas": "Problemas ao excluir categoria",
 
+            # Fornecedor categoria
+            "fcategoria.janela": "Categorias de ",
+            "fcategoria.instrucao": "Clique para marcar/desmarcar as categorias deste fornecedor:",
 
+            # Tela de Fornecedores
+            "fornecedor.janela": "CRUD de Fornecedores",
+            "fornecedor.titulo": "Cadastro de Fornecedores",
+            "fornecedor.dados": "Dados do fornecedor",
+            "fornecedor.razao_social": "Razão social:",
+            "fornecedor.nome_fantasia": "Nome fantasia:",
+            "fornecedor.cnpj": "CNPJ:",
+            "fornecedor.sla": "SLA de atendimento:",
+            "fornecedor.categorias": "Categorias",
+            "fornecedor.confirmar_exclusao": "Deseja realmente excluir este fornecedor?",
+            "fornecedor.sucesso": "Mini ERP",
+            "fornecedor.razao_social_coluna": "Razão Social",
+            "fornecedor.cnpj_coluna": "CNPJ",
 
+            # Controller de Fornecedores
+            "fornecedor.cadastrado_sucesso": "Fornecedor cadastrado com sucesso!",
+            "fornecedor.entrada_invalida": "Erro: Entrada inválida. Tente novamente.",
+            "fornecedor.selecionar": "Selecione um fornecedor na lista.",
+            "fornecedor.atualizado_sucesso": "Fornecedor atualizado com sucesso!",
+            "fornecedor.excluido_sucesso": "Fornecedor excluído com sucesso!",
+            "fornecedor.nao_encontrado": "Fornecedor não encontrado.",
+            "fornecedor.problemas": "Problemas ao excluir fornecedor",
+            "fornecedor.cadastrar_categorias": "Cadastre categorias antes de associá-las a um fornecedor.",
+            "fornecedor.categorias_atualizadas_sucesso": "Categorias do fornecedor atualizadas com sucesso!",
+            "fornecedor.categorias_erro": "Não foi possível salvar as categorias do fornecedor.",
+
+            # Perfil
+            "perfil.janela": "CRUD de Perfis",
+            "perfil.titulo": "Cadastro de Perfis",
+            "perfil.dados": "Dados do perfil",
+            "perfil.descricao": "Descrição",
+            "perfil.fornecedores": "Fornecedores",
+            "perfil.confirmar_exclusao": "Deseja realmente excluir este perfil?",
+            "perfil.cadastrado_sucesso": "Perfil cadastrado com sucesso!",
+            "perfil.selecionar": "Selecione um perfil na lista.",
+            "perfil.atualizado_sucesso": "Perfil atualizado com sucesso!",
+            "perfil.excluido_sucesso": "Perfil excluído com sucesso!",
+            "perfil.nao_encontrado": "Perfil não encontrado.",
+            "perfil.problemas": "Problemas ao excluir perfil",
+            "perfil.cadastrar_fornecedores": "Cadastre fornecedores antes de associá-los a um perfil.",
+            "perfil.id_coluna": "ID",
+            "perfil.nome_coluna": "Nome",
+            "perfil.descricao_coluna": "Descrição",
+
+            # Perfil fornecedor
+            "perfil_fornecedor.janela": "Fornecedores do perfil",
+            "perfil_fornecedor.titulo": "Fornecedores do perfil",
+            "perfil_fornecedor.instrucao": "Clique para marcar/desmarcar os fornecedores deste perfil:",
+            "perfil_fornecedor.sucesso": "Mini ERP",
+            "perfil_fornecedor.atualizados_sucesso": "Fornecedores do perfil atualizados com sucesso!",
+            "perfil_fornecedor.erro": "Não foi possível salvar os fornecedores do perfil.",
         },
-        "en": {
 
+        "en": {
             # Common to several screens
             "comum.id": "ID",
             "comum.nome": "Name",
@@ -123,7 +172,7 @@ class Idioma:
             "menu.idioma": "Language",
             "menu.sair": "Exit",
 
-            #Cities screen
+            # Cities screen
             "janela.cidade": "City CRUD",
             "cadastro.cidades": "City registration",
             "dados.cidades": "City data",
@@ -139,13 +188,11 @@ class Idioma:
             "cidade.nao_encotrada": "City not found",
             "cidade.problemas": "Problems deleting city",
 
-            #Categories screen
-            #view
+            # Categories screen
             "categoria.janela": "Category CRUD",
             "categoria.cadastro": "Category registration",
             "categoria.dados": "Category data",
             "categoria.confirmacao": "Do you really want to delete this category?",
-            #controller
             "categoria.cadastrada_sucesso": "Category successfully registered!",
             "categoria.selecionar": "Select a category from the list",
             "categoria.atualizada_sucesso": "Category successfully updated!",
@@ -153,6 +200,61 @@ class Idioma:
             "categoria.nao_encontrada": "Category not found",
             "categoria.problemas": "Problems deleting category",
 
+            # Supplier category
+            "fcategoria.janela": "Categories of ",
+            "fcategoria.instrucao": "Click to mark/unmark this supplier's categories:",
+
+            # Suppliers screen
+            "fornecedor.janela": "Supplier CRUD",
+            "fornecedor.titulo": "Supplier Registration",
+            "fornecedor.dados": "Supplier data",
+            "fornecedor.razao_social": "Company name:",
+            "fornecedor.nome_fantasia": "Trade name:",
+            "fornecedor.cnpj": "CNPJ:",
+            "fornecedor.sla": "Service SLA:",
+            "fornecedor.categorias": "Categories",
+            "fornecedor.confirmar_exclusao": "Do you really want to delete this supplier?",
+            "fornecedor.sucesso": "Mini ERP",
+            "fornecedor.razao_social_coluna": "Company Name",
+            "fornecedor.cnpj_coluna": "CNPJ",
+
+            # Supplier Controller
+            "fornecedor.cadastrado_sucesso": "Supplier registered successfully!",
+            "fornecedor.entrada_invalida": "Error: Invalid input. Please try again.",
+            "fornecedor.selecionar": "Select a supplier from the list.",
+            "fornecedor.atualizado_sucesso": "Supplier updated successfully!",
+            "fornecedor.excluido_sucesso": "Supplier deleted successfully!",
+            "fornecedor.nao_encontrado": "Supplier not found.",
+            "fornecedor.problemas": "Problems deleting supplier",
+            "fornecedor.cadastrar_categorias": "Register categories before associating them with a supplier.",
+            "fornecedor.categorias_atualizadas_sucesso": "Supplier categories updated successfully!",
+            "fornecedor.categorias_erro": "Could not save the supplier categories.",
+
+            # Profile
+            "perfil.janela": "Profile CRUD",
+            "perfil.titulo": "Profile Registration",
+            "perfil.dados": "Profile data",
+            "perfil.descricao": "Description",
+            "perfil.fornecedores": "Suppliers",
+            "perfil.confirmar_exclusao": "Do you really want to delete this profile?",
+            "perfil.cadastrado_sucesso": "Profile registered successfully!",
+            "perfil.selecionar": "Select a profile from the list.",
+            "perfil.atualizado_sucesso": "Profile updated successfully!",
+            "perfil.excluido_sucesso": "Profile deleted successfully!",
+            "perfil.nao_encontrado": "Profile not found.",
+            "perfil.problemas": "Problems deleting profile",
+            "perfil.cadastrar_fornecedores": "Register suppliers before associating them with a profile.",
+            "perfil.id_coluna": "ID",
+            "perfil.nome_coluna": "Name",
+            "perfil.descricao_coluna": "Description",
+
+            # Profile supplier
+            "perfil_fornecedor.janela": "Suppliers of profile",
+            "perfil_fornecedor.titulo": "Suppliers of profile",
+            "perfil_fornecedor.instrucao": "Click to mark/unmark the suppliers of this profile:",
+            "perfil_fornecedor.sucesso": "Mini ERP",
+            "perfil_fornecedor.atualizados_sucesso": "Profile suppliers updated successfully!",
+            "perfil_fornecedor.erro": "Could not save the profile suppliers.",
         }
     }
 

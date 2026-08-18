@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter import messagebox
+from app.core.idioma import Idioma
 
 
 
@@ -29,7 +30,7 @@ class Fornecedor_Categoria_View:
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text = f"Categorias de {self.fornecedor.nome_fantasia}",
+            text = f"{idioma.t('fcategoria.janela')}: {self.fornecedor.nome_fantasia}",
             font = ("Arial", 12, "bold"),
             wraplength = 380
         )
@@ -39,7 +40,7 @@ class Fornecedor_Categoria_View:
         )
         self.lbl_instrucao = tk.Label(
             self.root,
-            text = "Clique para marcar/desmarcar as categorias deste fornecedor:"
+            text = idioma.t("fcategoria.instrucao")
         )
         self.lbl_instrucao.pack(
             padx = 10,

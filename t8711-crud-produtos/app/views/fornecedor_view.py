@@ -1,329 +1,405 @@
-
-
-from app.models.fornecedor import Fornecedor
-from app.views.fornecedor_categoria_view import Fornecedor_Categoria_View
-
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+from app.models.fornecedor import Fornecedor
+from app.views.fornecedor_categoria_view import Fornecedor_Categoria_View
+from app.core.idioma import Idioma
 
 
 class Fornecedor_View:
+
     def __init__(self, root, controller):
         self.root = root
         self.controller = controller
+
         self.configurar_janela()
         self.criar_componentes()
         self.configurar_treeview()
         self.configurar_eventos()
 
     def configurar_janela(self):
-        self.root.title("CRUD de Fornecedores")
+        self.root.title(
+            Idioma.t("fornecedor.janela")
+        )
+
         self.root.geometry("800x600")
         self.root.resizable(False, False)
-  
 
     def criar_componentes(self):
+
         self.lbl_titulo = tk.Label(
             self.root,
-            text = "Cadastro de Fornecedores",
-            font = ("Arial", 16, "bold"),
+            text=Idioma.t("fornecedor.titulo"),
+            font=("Arial", 16, "bold")
         )
+
         self.lbl_titulo.grid(
-            row = 0,
-            column = 0,
-            columnspan = 4,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=0,
+            columnspan=4,
+            padx=5,
+            pady=5
         )
+
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text = "Dados do fornecedor"
+            text=Idioma.t("fornecedor.dados")
         )
+
         self.frm_dados.grid(
-            row = 1,
-            column = 0,
+            row=1,
+            column=0,
             columnspan=4,
-            padx = 10,
-            pady = 5,
-            sticky = "ew"
+            padx=10,
+            pady=5,
+            sticky="ew"
         )
+
         self.frm_dados.grid_columnconfigure(0, weight=0)
         self.frm_dados.grid_columnconfigure(1, weight=1)
         self.frm_dados.grid_columnconfigure(2, weight=0)
         self.frm_dados.grid_columnconfigure(3, weight=1)
+
+        # ID
+
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text = "ID:"
+            text=Idioma.t("comum.id") + ":"
         )
+
         self.lbl_id.grid(
-            row = 0,
-            column = 0,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=0,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
         self.txt_id = tk.Entry(
             self.frm_dados,
-            width = 10,
-            state = "readonly"
+            width=10,
+            state="readonly"
         )
+
         self.txt_id.grid(
-            row = 0,
-            column= 1,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=0,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
+        # Razão social
+
         self.lbl_razao_social = tk.Label(
             self.frm_dados,
-            text = "Razão social:"
+            text=Idioma.t("fornecedor.razao_social")
         )
+
         self.lbl_razao_social.grid(
-            row = 1,
-            column = 0,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=1,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
         self.txt_razao_social = tk.Entry(
             self.frm_dados,
-            width = 40
+            width=40
         )
+
         self.txt_razao_social.grid(
-            row = 1,
-            column = 1,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=1,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
+        # Nome fantasia
+
         self.lbl_nome_fantasia = tk.Label(
             self.frm_dados,
-            text = "Nome fantasia:"
+            text=Idioma.t("fornecedor.nome_fantasia")
         )
+
         self.lbl_nome_fantasia.grid(
-            row = 1,
-            column = 2,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=1,
+            column=2,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
         self.txt_nome_fantasia = tk.Entry(
             self.frm_dados,
-            width = 40
+            width=40
         )
+
         self.txt_nome_fantasia.grid(
-            row = 1,
-            column = 3,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=1,
+            column=3,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
+        # CNPJ
+
         self.lbl_cnpj = tk.Label(
             self.frm_dados,
-            text = "CNPJ:"
+            text=Idioma.t("fornecedor.cnpj")
         )
+
         self.lbl_cnpj.grid(
-            row = 2,
-            column = 0,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=2,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
         self.txt_cnpj = tk.Entry(
             self.frm_dados,
-            width = 20
+            width=20
         )
+
         self.txt_cnpj.grid(
-            row = 2,
-            column = 1,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=2,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
+        # SLA
+
         self.lbl_sla = tk.Label(
             self.frm_dados,
-            text = "SLA de atendimento:"
+            text=Idioma.t("fornecedor.sla")
         )
+
         self.lbl_sla.grid(
-            row = 2,
-            column = 2,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=2,
+            column=2,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
         self.txt_sla = tk.Entry(
             self.frm_dados,
-            width = 20
+            width=20
         )
+
         self.txt_sla.grid(
-            row = 2,
-            column = 3,
-            padx = 5,
-            pady = 5,
-            sticky = "w"
+            row=2,
+            column=3,
+            padx=5,
+            pady=5,
+            sticky="w"
         )
+
+        # Botões
+
         self.frm_botoes = tk.Frame(
             self.frm_dados,
-            border = 2,
-            relief = "groove"
+            border=2,
+            relief="groove"
         )
+
         self.frm_botoes.grid(
-            row = 4,
-            column = 0,
-            padx = 10,
-            pady = 5,
-            columnspan = 4,
+            row=4,
+            column=0,
+            padx=10,
+            pady=5,
+            columnspan=4
         )
+
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text = "Novo",
-            width = 15
+            text=Idioma.t("comum.novo"),
+            width=15
         )
+
         self.btn_novo.grid(
-            row = 0,
-            column = 0,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=0,
+            padx=5,
+            pady=5
         )
+
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text = "Salvar",
-            width = 15
+            text=Idioma.t("comum.salvar"),
+            width=15
         )
+
         self.btn_salvar.grid(
-            row = 0,
-            column = 1,
-            padx = 5,
-            pady = 5
-        )        
+            row=0,
+            column=1,
+            padx=5,
+            pady=5
+        )
+
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text = "Alterar",
-            width = 15
+            text=Idioma.t("comum.alterar"),
+            width=15
         )
+
         self.btn_alterar.grid(
-            row = 0,
-            column = 2,
-            padx = 5,
-            pady = 5
-        )        
+            row=0,
+            column=2,
+            padx=5,
+            pady=5
+        )
+
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text = "Excluir",
-            width = 15
+            text=Idioma.t("comum.excluir"),
+            width=15
         )
+
         self.btn_excluir.grid(
-            row = 0,
-            column = 3,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=3,
+            padx=5,
+            pady=5
         )
+
         self.btn_categorias = tk.Button(
             self.frm_botoes,
-            text = "Categorias",
-            width = 15
+            text=Idioma.t("fornecedor.categorias"),
+            width=15
         )
+
         self.btn_categorias.grid(
-            row = 0,
-            column = 4,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=4,
+            padx=5,
+            pady=5
         )
+
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text = "Fechar",
-            width = 15
+            text=Idioma.t("comum.fechar"),
+            width=15
         )
+
         self.btn_fechar.grid(
-            row = 0,
-            column = 5,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=5,
+            padx=5,
+            pady=5
         )
+
+        # Treeview
+
         self.tbl_fornecedores = ttk.Treeview(
             self.root,
-            height = 10
-        )  
+            height=10
+        )
+
         self.tbl_fornecedores.grid(
-            row = 3,
-            column = 0,
-            columnspan = 4,
-            padx = 10,
-            pady = 10,
-            sticky = "nsew"
+            row=3,
+            column=0,
+            columnspan=4,
+            padx=10,
+            pady=10,
+            sticky="nsew"
         )
 
     def configurar_treeview(self):
+
         self.tbl_fornecedores["columns"] = (
             "id",
             "razao_social",
             "cnpj"
         )
+
         self.tbl_fornecedores.column(
             "#0",
-            width = 0,
-            stretch = False
+            width=0,
+            stretch=False
         )
+
         self.tbl_fornecedores.column(
             "id",
-            width = 10,
-            anchor = "center"
+            width=10,
+            anchor="center"
         )
+
         self.tbl_fornecedores.column(
             "razao_social",
-            width = 50
+            width=50
         )
+
         self.tbl_fornecedores.column(
             "cnpj",
-            width = 20
+            width=20
         )
+
         self.tbl_fornecedores.heading(
             "id",
-            text = "ID"
+            text=Idioma.t("comum.id")
         )
+
         self.tbl_fornecedores.heading(
             "razao_social",
-            text = "Razão Social"
+            text=Idioma.t("fornecedor.razao_social_coluna")
         )
+
         self.tbl_fornecedores.heading(
             "cnpj",
-            text = "CNPJ"
+            text=Idioma.t("fornecedor.cnpj_coluna")
         )
+
     def configurar_eventos(self):
+
         self.btn_novo.config(
-            command = self.controller.new
+            command=self.controller.new
         )
+
         self.btn_salvar.config(
-            command = self.controller.save
+            command=self.controller.save
         )
+
         self.btn_alterar.config(
-            command = self.controller.update
+            command=self.controller.update
         )
+
         self.btn_excluir.config(
-            command = self.controller.delete
+            command=self.controller.delete
         )
+
         self.btn_categorias.config(
-            command = self.controller.abrir_categorias
+            command=self.controller.abrir_categorias
         )
+
         self.btn_fechar.config(
-            command = self.fechar
+            command=self.fechar
         )
+
         self.tbl_fornecedores.bind(
             "<<TreeviewSelect>>",
             self.controller.selecionar_fornecedor
-
         )
+
     def preencher_campos(self, fornecedor):
 
         self.limpar_campos()
-        self.txt_id.config(state = "normal")
+
+        self.txt_id.config(state="normal")
+
         self.txt_id.insert(
             0,
             str(fornecedor.id)
         )
-        self.txt_id.config(state = "readonly")
+
+        self.txt_id.config(state="readonly")
 
         self.txt_razao_social.insert(
             0,
@@ -343,22 +419,25 @@ class Fornecedor_View:
         self.txt_sla.insert(
             0,
             str(fornecedor.sla_atendimento)
-        )        
+        )
 
     def limpar_campos(self):
-        self.txt_id.config(state = "normal")
+
+        self.txt_id.config(state="normal")
         self.txt_id.delete(0, tk.END)
-        self.txt_id.config(state = "readonly")
+        self.txt_id.config(state="readonly")
+
         self.txt_razao_social.delete(0, tk.END)
-        self.txt_nome_fantasia.delete(0,tk.END)
+        self.txt_nome_fantasia.delete(0, tk.END)
         self.txt_cnpj.delete(0, tk.END)
         self.txt_sla.delete(0, tk.END)
+
         self.txt_razao_social.focus()
 
     def limpar_treeview(self):
+
         for item in self.tbl_fornecedores.get_children():
             self.tbl_fornecedores.delete(item)
-
 
     def get_id_selecionado(self):
 
@@ -369,31 +448,43 @@ class Fornecedor_View:
     def confirmar_exclusao(self):
 
         return messagebox.askyesno(
-            "Confirmação",
-            "Deseja realmente excluir este fornecedor?",
+            Idioma.t("comum.confirmacao"),
+            Idioma.t("fornecedor.confirmar_exclusao"),
             parent=self.root
         )
 
     def ler_dados_fornecedor(self):
+
         razao_social = self.txt_razao_social.get()
         nome_fantasia = self.txt_nome_fantasia.get()
         cnpj = self.txt_cnpj.get()
         sla = int(self.txt_sla.get())
-        return razao_social, nome_fantasia, cnpj, sla
-    
+
+        return (
+            razao_social,
+            nome_fantasia,
+            cnpj,
+            sla
+        )
+
     def exibir_mensagem(self, mensagem, sucesso=True):
+
         if sucesso:
+
             messagebox.showinfo(
-                "Mini ERP",
+                Idioma.t("fornecedor.sucesso"),
                 mensagem,
                 parent=self.root
             )
+
         else:
+
             messagebox.showerror(
-                "Mini ERP",
+                Idioma.t("fornecedor.sucesso"),
                 mensagem,
                 parent=self.root
             )
+
     def exibir_fornecedores(self, fornecedores):
 
         self.limpar_treeview()
@@ -409,8 +500,15 @@ class Fornecedor_View:
                     fornecedor.cnpj
                 )
             )
-    def abrir_categorias(self, fornecedor, categorias_disponiveis):
+
+    def abrir_categorias(
+        self,
+        fornecedor,
+        categorias_disponiveis
+    ):
+
         janela_categorias = tk.Toplevel(self.root)
+
         Fornecedor_Categoria_View(
             janela_categorias,
             self.controller,
@@ -419,7 +517,9 @@ class Fornecedor_View:
         )
 
     def fechar(self):
+
         self.root.destroy()
 
     def iniciar(self):
+
         self.controller.get_all()
